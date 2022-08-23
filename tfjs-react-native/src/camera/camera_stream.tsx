@@ -15,18 +15,18 @@
  * =============================================================================
  */
 
-import * as React from 'react';
-import * as tf from '@tensorflow/tfjs-core';
+import * as React from "react";
+import * as tf from "@tensorflow/tfjs-core";
 import {
   StyleSheet,
   PixelRatio,
   LayoutChangeEvent,
   Platform,
-} from 'react-native';
-import { Camera } from 'expo-camera';
-import { GLView, ExpoWebGLRenderingContext } from 'expo-gl';
-import { fromTexture, renderToGLView, detectGLCapabilities } from './camera';
-import { Rotation } from './types';
+} from "react-native";
+import { Camera } from "expo-camera";
+import { GLView, ExpoWebGLRenderingContext } from "expo-gl";
+import { fromTexture, renderToGLView, detectGLCapabilities } from "./camera";
+import { Rotation } from "./types";
 
 interface WrappedComponentProps {
   onLayout?: (event: LayoutChangeEvent) => void;
@@ -126,7 +126,7 @@ const DEFAULT_USE_CUSTOM_SHADERS_TO_RESIZE = false;
  *
  * ```js
  * import { Camera } from 'expo-camera';
- * import { cameraWithTensors } from '@tensorflow/tfjs-react-native';
+ * import { cameraWithTensors } from 'enh-tfjs-react-native';
  *
  * const TensorCamera = cameraWithTensors(Camera);
  *
@@ -223,7 +223,7 @@ export function cameraWithTensors<T extends WrappedComponentProps>(
         //@ts-ignore
         return this.glView.createCameraTextureAsync(this.camera);
       } else {
-        throw new Error('Expo GL context or camera not available');
+        throw new Error("Expo GL context or camera not available");
       }
     }
 
@@ -328,7 +328,7 @@ export function cameraWithTensors<T extends WrappedComponentProps>(
         const isFrontCamera =
           this.camera.props.type === Camera.Constants.Type.front;
         const flipHorizontal =
-          Platform.OS === 'ios' && isFrontCamera ? false : true;
+          Platform.OS === "ios" && isFrontCamera ? false : true;
 
         renderToGLView(
           gl,
@@ -388,7 +388,7 @@ export function cameraWithTensors<T extends WrappedComponentProps>(
       const cameraComp = (
         //@ts-ignore see https://github.com/microsoft/TypeScript/issues/30650
         <CameraComponent
-          key='camera-with-tensor-camera-view'
+          key="camera-with-tensor-camera-view"
           {...cameraProps}
           ref={(ref: Camera) => (this.camera = ref)}
         />
@@ -399,7 +399,7 @@ export function cameraWithTensors<T extends WrappedComponentProps>(
       if (cameraLayout != null) {
         const styles = StyleSheet.create({
           glView: {
-            position: 'absolute',
+            position: "absolute",
             left: cameraLayout.x,
             top: cameraLayout.y,
             width: cameraLayout.width,
@@ -412,7 +412,7 @@ export function cameraWithTensors<T extends WrappedComponentProps>(
 
         glViewComponent = (
           <GLView
-            key='camera-with-tensor-gl-view'
+            key="camera-with-tensor-gl-view"
             style={styles.glView}
             onContextCreate={this.onGLContextCreate}
             ref={(ref) => (this.glView = ref)}

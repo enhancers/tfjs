@@ -15,21 +15,28 @@
  * =============================================================================
  */
 
-import React, { Fragment } from 'react';
-import { Button, SafeAreaView, StyleSheet, View, Text, StatusBar } from 'react-native';
+import React, { Fragment } from "react";
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  StatusBar,
+} from "react-native";
 
-import * as tf from '@tensorflow/tfjs';
-import '@tensorflow/tfjs-react-native';
+import * as tf from "@tensorflow/tfjs";
+import "enh-tfjs-react-native";
 
-import { Diagnostic } from './components/diagnostic';
-import { MobilenetDemo } from './components/mobilenet_demo';
-import { TestRunner } from './components/tfjs_unit_test_runner';
-import { WebcamDemo } from './components/webcam/webcam_demo';
-import { RealtimeDemo } from './components/webcam/realtime_demo';
+import { Diagnostic } from "./components/diagnostic";
+import { MobilenetDemo } from "./components/mobilenet_demo";
+import { TestRunner } from "./components/tfjs_unit_test_runner";
+import { WebcamDemo } from "./components/webcam/webcam_demo";
+import { RealtimeDemo } from "./components/webcam/realtime_demo";
 
-const BACKEND_TO_USE = 'rn-webgl';
+const BACKEND_TO_USE = "rn-webgl";
 
-export type Screen = 'main' | 'diag' | 'demo' | 'test' | 'webcam' | 'realtime';
+export type Screen = "main" | "diag" | "demo" | "test" | "webcam" | "realtime";
 
 interface AppState {
   isTfReady: boolean;
@@ -41,15 +48,15 @@ export class App extends React.Component<{}, AppState> {
     super(props);
     this.state = {
       isTfReady: false,
-      currentScreen: 'main'
+      currentScreen: "main",
     };
 
     this.showDiagnosticScreen = this.showDiagnosticScreen.bind(this);
     this.showDemoScreen = this.showDemoScreen.bind(this);
     this.showMainScreen = this.showMainScreen.bind(this);
     this.showTestScreen = this.showTestScreen.bind(this);
-    this.showWebcamDemo= this.showWebcamDemo.bind(this);
-    this.showRealtimeDemo= this.showRealtimeDemo.bind(this);
+    this.showWebcamDemo = this.showWebcamDemo.bind(this);
+    this.showRealtimeDemo = this.showRealtimeDemo.bind(this);
   }
 
   async componentDidMount() {
@@ -61,127 +68,133 @@ export class App extends React.Component<{}, AppState> {
   }
 
   showDiagnosticScreen() {
-    this.setState({ currentScreen: 'diag' });
+    this.setState({ currentScreen: "diag" });
   }
 
   showDemoScreen() {
-    this.setState({ currentScreen: 'demo' });
+    this.setState({ currentScreen: "demo" });
   }
 
   showMainScreen() {
-    this.setState({ currentScreen: 'main' });
+    this.setState({ currentScreen: "main" });
   }
 
   showTestScreen() {
-    this.setState({ currentScreen: 'test' });
+    this.setState({ currentScreen: "test" });
   }
 
   showWebcamDemo() {
-    this.setState({ currentScreen: 'webcam' });
+    this.setState({ currentScreen: "webcam" });
   }
 
   showRealtimeDemo() {
-    this.setState({ currentScreen: 'realtime' });
+    this.setState({ currentScreen: "realtime" });
   }
 
   renderMainScreen() {
-    return <Fragment>
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Diagnostic</Text>
-        <Button
-          onPress={this.showDiagnosticScreen}
-          title='Show Diagnostic Screen'
-        />
-      </View>
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Demo</Text>
-        <Button
-          onPress={this.showDemoScreen}
-          title='Show Demo Screen'
-        />
-      </View>
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Unit tests</Text>
-        <Button
-          testID='unit-test-btn'
-          accessibilityLabel='unit-test-btn'
-          onPress={this.showTestScreen}
-          title='Show Test Screen'
-        />
-      </View>
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Webcam Demo</Text>
-        <Button
-          onPress={this.showWebcamDemo}
-          title='Show Webcam Demo'
-        />
-      </View>
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Realtime Webcam Demo</Text>
-        <Button
-          onPress={this.showRealtimeDemo}
-          title='Show Realtime Webcam Demo'
-        />
-      </View>
-    </Fragment>;
+    return (
+      <Fragment>
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitle}>Diagnostic</Text>
+          <Button
+            onPress={this.showDiagnosticScreen}
+            title="Show Diagnostic Screen"
+          />
+        </View>
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitle}>Demo</Text>
+          <Button onPress={this.showDemoScreen} title="Show Demo Screen" />
+        </View>
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitle}>Unit tests</Text>
+          <Button
+            testID="unit-test-btn"
+            accessibilityLabel="unit-test-btn"
+            onPress={this.showTestScreen}
+            title="Show Test Screen"
+          />
+        </View>
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitle}>Webcam Demo</Text>
+          <Button onPress={this.showWebcamDemo} title="Show Webcam Demo" />
+        </View>
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitle}>Realtime Webcam Demo</Text>
+          <Button
+            onPress={this.showRealtimeDemo}
+            title="Show Realtime Webcam Demo"
+          />
+        </View>
+      </Fragment>
+    );
   }
 
   renderDiagnosticScreen() {
-    return <Fragment>
-      <Diagnostic returnToMain={this.showMainScreen} />
-    </Fragment>;
+    return (
+      <Fragment>
+        <Diagnostic returnToMain={this.showMainScreen} />
+      </Fragment>
+    );
   }
 
   renderDemoScreen() {
-    const image = require('./assets/images/catsmall.jpg');
-    return <Fragment>
-      <MobilenetDemo
-        image={image}
-        returnToMain={this.showMainScreen} />
-    </Fragment>;
+    const image = require("./assets/images/catsmall.jpg");
+    return (
+      <Fragment>
+        <MobilenetDemo image={image} returnToMain={this.showMainScreen} />
+      </Fragment>
+    );
   }
 
   renderTestScreen() {
-    return <Fragment>
-      <TestRunner backend={BACKEND_TO_USE} />
-    </Fragment>;
+    return (
+      <Fragment>
+        <TestRunner backend={BACKEND_TO_USE} />
+      </Fragment>
+    );
   }
 
   renderWebcamDemo() {
-    return <Fragment>
-      <WebcamDemo returnToMain={this.showMainScreen}/>
-    </Fragment>;
+    return (
+      <Fragment>
+        <WebcamDemo returnToMain={this.showMainScreen} />
+      </Fragment>
+    );
   }
 
   renderRealtimeDemo() {
-    return <Fragment>
-      <RealtimeDemo returnToMain={this.showMainScreen}/>
-    </Fragment>;
+    return (
+      <Fragment>
+        <RealtimeDemo returnToMain={this.showMainScreen} />
+      </Fragment>
+    );
   }
 
   renderLoadingTF() {
-    return <Fragment>
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Loading TF</Text>
-      </View>
-    </Fragment>;
+    return (
+      <Fragment>
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitle}>Loading TF</Text>
+        </View>
+      </Fragment>
+    );
   }
 
   renderContent() {
     const { currentScreen, isTfReady } = this.state;
     if (isTfReady) {
       switch (currentScreen) {
-        case 'main':
+        case "main":
           return this.renderMainScreen();
-        case 'diag':
+        case "diag":
           return this.renderDiagnosticScreen();
-        case 'demo':
+        case "demo":
           return this.renderDemoScreen();
-        case 'test':
+        case "test":
           return this.renderTestScreen();
-        case 'webcam':
+        case "webcam":
           return this.renderWebcamDemo();
-        case 'realtime':
+        case "realtime":
           return this.renderRealtimeDemo();
         default:
           return this.renderMainScreen();
@@ -189,17 +202,14 @@ export class App extends React.Component<{}, AppState> {
     } else {
       return this.renderLoadingTF();
     }
-
   }
 
   render() {
     return (
       <Fragment>
-        <StatusBar barStyle='dark-content' />
+        <StatusBar barStyle="dark-content" />
         <SafeAreaView>
-          <View style={styles.body}>
-            {this.renderContent()}
-          </View>
+          <View style={styles.body}>{this.renderContent()}</View>
         </SafeAreaView>
       </Fragment>
     );
@@ -208,10 +218,10 @@ export class App extends React.Component<{}, AppState> {
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   body: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   sectionContainer: {
     marginTop: 32,
@@ -219,8 +229,8 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: '600',
-    color: 'black',
+    fontWeight: "600",
+    color: "black",
     marginBottom: 6,
   },
 });

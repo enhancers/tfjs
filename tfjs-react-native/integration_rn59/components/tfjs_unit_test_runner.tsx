@@ -1,4 +1,3 @@
-
 /**
  * @license
  * Copyright 2019 Google LLC. All Rights Reserved.
@@ -17,12 +16,12 @@
  */
 
 // @ts-ignore
-import jasmineRequire from 'jasmine-core/lib/jasmine-core/jasmine.js';
+import jasmineRequire from "jasmine-core/lib/jasmine-core/jasmine.js";
 // tslint:disable-next-line: no-imports-from-dist
-import * as jasmine_util from '@tensorflow/tfjs-core/dist/jasmine_util';
-import React, { Component, Fragment } from 'react';
-import { StyleSheet, Text, View, ViewStyle, ScrollView } from 'react-native';
-import * as tf from '@tensorflow/tfjs-core';
+import * as jasmine_util from "@tensorflow/tfjs-core/dist/jasmine_util";
+import React, { Component, Fragment } from "react";
+import { StyleSheet, Text, View, ViewStyle, ScrollView } from "react-native";
+import * as tf from "@tensorflow/tfjs-core";
 
 interface TestRunnerProps {
   backend: string;
@@ -31,7 +30,7 @@ interface TestRunnerProps {
 interface FailedTestInfo {
   suiteName?: string;
   testName: string;
-  failedExpectations: Array<{ message: string, stack: string }>;
+  failedExpectations: Array<{ message: string; stack: string }>;
   message?: string;
 }
 
@@ -96,35 +95,35 @@ export class TestRunner extends Component<TestRunnerProps, TestRunnerState> {
       specFilter: (spec: jasmine.Spec) => {
         const name = spec.getFullName();
 
-        if(name.match('Backend registration')) {
+        if (name.match("Backend registration")) {
           // These tests use spyOn on a module. Skip them until they
           // can be updated. Coverage for this functionality is tested
           // directly in this package.
           return false;
         }
-        if(name.match('isMobile')) {
+        if (name.match("isMobile")) {
           // Browser specific mobile test
           return false;
         }
 
-        if(name.match('dilation2d')) {
+        if (name.match("dilation2d")) {
           // Not implemented in webgl
           return false;
         }
-        if (name.match('method otsu')) {
+        if (name.match("method otsu")) {
           // Image threshold is broken for Otsu's method. #5245
           return false;
         }
         return true;
-      }
-     });
+      },
+    });
 
     // Custom reporter to collect the test results
     const reactReporter: jasmine.CustomReporter = {
-      jasmineStarted: suiteInfo => {
+      jasmineStarted: (suiteInfo) => {
         // The console.warn below seems necessary in order for the spy on
         // console.warn defined in one of the tests to run corrently.
-        console.warn('starting tests');
+        console.warn("starting tests");
         //@ts-ignore
         console.reportErrorsAsExceptions = false;
         this.setState({
@@ -132,19 +131,19 @@ export class TestRunner extends Component<TestRunnerProps, TestRunnerState> {
           totalTests: suiteInfo.totalSpecsDefined,
         });
       },
-      specDone: result => {
-        if (result.failedExpectations == null ||
-          result.failedExpectations.length === 0) {
+      specDone: (result) => {
+        if (
+          result.failedExpectations == null ||
+          result.failedExpectations.length === 0
+        ) {
           passedTests += 1;
           this.setState({
             passedTests,
           });
-        }
-        else if (result.failedExpectations.length > 0) {
+        } else if (result.failedExpectations.length > 0) {
           const failureInfo: FailedTestInfo = {
             testName: result.fullName,
-            failedExpectations: result.failedExpectations.map(f => {
-
+            failedExpectations: result.failedExpectations.map((f) => {
               return {
                 message: f.message,
                 stack: f.stack,
@@ -152,7 +151,7 @@ export class TestRunner extends Component<TestRunnerProps, TestRunnerState> {
             }),
           };
           // Log to console to make it easier to view these in dev tools.
-          console.log('Test Failure');
+          console.log("Test Failure");
           console.log(JSON.stringify(failureInfo, null, 2));
           failedTests.push(failureInfo);
           this.setState({
@@ -167,94 +166,103 @@ export class TestRunner extends Component<TestRunnerProps, TestRunnerState> {
           testsComplete: true,
           failedTests,
         });
-      }
+      },
     };
     env.addReporter(reactReporter);
 
-    jasmine_util.setTestEnvs(
-      [{
-        name: 'test-rn',
+    jasmine_util.setTestEnvs([
+      {
+        name: "test-rn",
         backendName: this.props.backend,
         flags: {
-          'WEBGL_CPU_FORWARD': false, 'WEBGL_SIZE_UPLOAD_UNIFORM': 0,
-        }
-      }]);
+          WEBGL_CPU_FORWARD: false,
+          WEBGL_SIZE_UPLOAD_UNIFORM: 0,
+        },
+      },
+    ]);
 
     // import tests
-    require('@tensorflow/tfjs-core/dist/tests');
+    require("@tensorflow/tfjs-core/dist/tests");
 
     // import tfjs-react-native-tests;
-    require('@tensorflow/tfjs-react-native/dist/tests');
+    require("enh-tfjs-react-native/dist/tests");
 
     // Start the test runner
     env.execute();
   }
 
   renderTestFailure(failure: FailedTestInfo, key: number) {
-    return <View style={styles.failedTest} key={key}>
-      <Text style={styles.failedTestName}>
-        {failure.testName}
-      </Text>
-      <Fragment>
-        {failure.failedExpectations.map((expecation, i) => <Text key={i}>
-          {expecation.message}
-        </Text>)}
-      </Fragment>
-    </View>;
+    return (
+      <View style={styles.failedTest} key={key}>
+        <Text style={styles.failedTestName}>{failure.testName}</Text>
+        <Fragment>
+          {failure.failedExpectations.map((expecation, i) => (
+            <Text key={i}>{expecation.message}</Text>
+          ))}
+        </Fragment>
+      </View>
+    );
   }
 
   formatTestFailuresForWebDriver(failures: FailedTestInfo[]) {
-    const TEST_SEPARATOR = '###';
-    const TITLE_SEPARATOR = '%%%';
-    return failures.map((failure, i) => {
-      const testName = failure.testName;
-      const messages = failure.failedExpectations.map((expecation, i) =>
-        expecation.message).join('\n');
+    const TEST_SEPARATOR = "###";
+    const TITLE_SEPARATOR = "%%%";
+    return failures
+      .map((failure, i) => {
+        const testName = failure.testName;
+        const messages = failure.failedExpectations
+          .map((expecation, i) => expecation.message)
+          .join("\n");
 
-      return `${testName}${TITLE_SEPARATOR}${messages}`;
-    }).join(TEST_SEPARATOR);
+        return `${testName}${TITLE_SEPARATOR}${messages}`;
+      })
+      .join(TEST_SEPARATOR);
   }
 
   render() {
-    const { passedTests, failedTests, totalTests, backendName, testsComplete }
-      = this.state;
+    const { passedTests, failedTests, totalTests, backendName, testsComplete } =
+      this.state;
 
     return (
       <Fragment>
-        <View testID='testInfo'
-          accessibilityLabel='testInfo'
-          style={styles.sectionContainer}>
+        <View
+          testID="testInfo"
+          accessibilityLabel="testInfo"
+          style={styles.sectionContainer}
+        >
           <Text style={styles.sectionTitle}>Info</Text>
-          <Text testID='backendName' accessibilityLabel='backendName'>
+          <Text testID="backendName" accessibilityLabel="backendName">
             backend={backendName}
           </Text>
-          <Text testID='testComplete' accessibilityLabel='testComplete'>
+          <Text testID="testComplete" accessibilityLabel="testComplete">
             testsComplete={String(testsComplete)}
           </Text>
           <Text>tf.env().platformName={tf.env().platformName}</Text>
         </View>
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}
-            testID='passedTests'
-            accessibilityLabel='passedTests'>
+          <Text
+            style={styles.sectionTitle}
+            testID="passedTests"
+            accessibilityLabel="passedTests"
+          >
             Passed Tests {passedTests} of {totalTests}
           </Text>
         </View>
         <View>
-          <Text style={styles.failureMessages}
-            testID='failureMessages'
-            accessibilityLabel='failureMessages'>
+          <Text
+            style={styles.failureMessages}
+            testID="failureMessages"
+            accessibilityLabel="failureMessages"
+          >
             {this.formatTestFailuresForWebDriver(failedTests)}
           </Text>
         </View>
-        <ScrollView contentInsetAdjustmentBehavior='automatic'>
+        <ScrollView contentInsetAdjustmentBehavior="automatic">
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>
               Failed Tests ({failedTests.length})
             </Text>
-            <View
-              testID='failedTests'
-              accessibilityLabel='failedTests'>
+            <View testID="failedTests" accessibilityLabel="failedTests">
               {failedTests.map((f, i) => this.renderTestFailure(f, i))}
             </View>
           </View>
@@ -265,31 +273,31 @@ export class TestRunner extends Component<TestRunnerProps, TestRunnerState> {
 }
 
 const container: ViewStyle = {
-  display: 'flex',
-  flexDirection: 'row',
-  backgroundColor: '#FFFDE7',
+  display: "flex",
+  flexDirection: "row",
+  backgroundColor: "#FFFDE7",
   padding: 5,
   marginBottom: 5,
 };
 
 const containerMounted: ViewStyle = {
   ...container,
-  backgroundColor: '#C8E6C9',
+  backgroundColor: "#C8E6C9",
 };
 
 const styles = StyleSheet.create({
   container,
   containerMounted,
   failedTest: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     margin: 5,
     paddingBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   failedTestName: {
-    backgroundColor: 'white',
-    fontWeight: 'bold',
+    backgroundColor: "white",
+    fontWeight: "bold",
   },
   failureMessages: {
     fontSize: 1,
@@ -299,12 +307,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingBottom: 4,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   sectionTitle: {
     fontSize: 14,
-    fontWeight: '600',
-    color: 'black',
+    fontWeight: "600",
+    color: "black",
     marginBottom: 6,
   },
 });

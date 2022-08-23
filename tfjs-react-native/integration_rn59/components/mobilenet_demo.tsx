@@ -15,15 +15,25 @@
  * =============================================================================
  */
 
-import React, { Fragment } from 'react';
-import { Button, SafeAreaView, StyleSheet, ScrollView, View, StatusBar, Image, Text, ImageSourcePropType } from 'react-native';
+import React, { Fragment } from "react";
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  StatusBar,
+  Image,
+  Text,
+  ImageSourcePropType,
+} from "react-native";
 
-import * as tf from '@tensorflow/tfjs';
-import { fetch } from '@tensorflow/tfjs-react-native';
-import * as mobilenet from '@tensorflow-models/mobilenet';
-import * as jpeg from 'jpeg-js';
+import * as tf from "@tensorflow/tfjs";
+import { fetch } from "enh-tfjs-react-native";
+import * as mobilenet from "@tensorflow-models/mobilenet";
+import * as jpeg from "jpeg-js";
 
-import { Run } from './run';
+import { Run } from "./run";
 
 interface ScreenProps {
   returnToMain: () => void;
@@ -36,14 +46,11 @@ interface ScreenState {
   imageChecksum?: number;
 }
 
-export class MobilenetDemo extends React.Component<
-  ScreenProps,
-  ScreenState
-  > {
+export class MobilenetDemo extends React.Component<ScreenProps, ScreenState> {
   constructor(props: ScreenProps) {
     super(props);
     this.state = {
-      prediction: []
+      prediction: [],
     };
   }
 
@@ -73,7 +80,7 @@ export class MobilenetDemo extends React.Component<
     this.setState({
       prediction,
       predictionTime: end - start,
-      imageChecksum
+      imageChecksum,
     });
     tf.dispose([imageTensor, imageTensorSum]);
   }
@@ -109,8 +116,8 @@ export class MobilenetDemo extends React.Component<
           );
         })}
         <View style={styles.sectionContainer}>
-          <Run label='Prediction Time' result={`${predictionTime}`} />
-          <Run label='Checksum' result={`${imageChecksum}`} />
+          <Run label="Prediction Time" result={`${predictionTime}`} />
+          <Run label="Checksum" result={`${imageChecksum}`} />
         </View>
       </View>
     );
@@ -122,15 +129,15 @@ export class MobilenetDemo extends React.Component<
 
     return (
       <Fragment>
-        <StatusBar barStyle='dark-content' />
+        <StatusBar barStyle="dark-content" />
         <SafeAreaView>
           <ScrollView
-            contentInsetAdjustmentBehavior='automatic'
+            contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}
           >
             <View style={styles.body}>
               <View style={styles.sectionContainer}>
-                <Button onPress={this.props.returnToMain} title='Back' />
+                <Button onPress={this.props.returnToMain} title="Back" />
               </View>
 
               <View style={styles.sectionContainer}>
@@ -159,55 +166,55 @@ export class MobilenetDemo extends React.Component<
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   body: {
-    backgroundColor: 'white',
-    marginBottom: 60
+    backgroundColor: "white",
+    marginBottom: 60,
   },
   sectionContainer: {
     marginTop: 32,
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: '600',
-    color: 'black',
-    marginBottom: 6
+    fontWeight: "600",
+    color: "black",
+    marginBottom: 6,
   },
   imageArea: {
     marginTop: 12,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   resultArea: {
     marginLeft: 5,
     paddingLeft: 5,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center'
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
   },
   resultTextHeader: {
     fontSize: 21,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 12,
     marginTop: 12,
-    textAlign: 'center'
+    textAlign: "center",
   },
   prediction: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   resultClass: {
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   resultProb: {
     fontSize: 16,
-    marginLeft: 5
-  }
+    marginLeft: 5,
+  },
 });

@@ -36,7 +36,7 @@ Note that if you are using in a managed expo app the install instructions may be
   - Install and configure [async-storage](https://github.com/react-native-community/async-storage)
   - Install and configure [react-native-fs](https://www.npmjs.com/package/react-native-fs)
   - **Install @tensorflow/tfjs** - `npm install @tensorflow/tfjs`
-  - **Install @tensorflow/tfjs-react-native** - `npm install @tensorflow/tfjs-react-native`
+  - **Install enh-tfjs-react-native** - `npm install enh-tfjs-react-native`
 
 
 > After this point, if you are using Xcode to build for ios, you should use a ‘.workspace’ file instead of the ‘.xcodeproj’
@@ -71,7 +71,7 @@ The example below uses a flag in the App state to indicate that TensorFlow is re
 
 ```js
 import * as tf from '@tensorflow/tfjs';
-import '@tensorflow/tfjs-react-native';
+import 'enh-tfjs-react-native';
 
 export class App extends React.Component {
   constructor(props) {
