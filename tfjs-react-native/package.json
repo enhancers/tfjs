@@ -1,6 +1,6 @@
 {
   "name": "enh-tfjs-react-native",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TensorFlow.js platform implementation for React Native",
   "main": "dist/index.js",
   "repository": {
@@ -72,9 +72,9 @@
     "@tensorflow/tfjs-backend-cpu": "~3.7.0",
     "@tensorflow/tfjs-backend-webgl": "~3.7.0",
     "@tensorflow/tfjs-core": "~3.7.0",
-    "expo-asset": "^7.0.0",
-    "expo-camera": "^7.0.0",
-    "expo-gl": "^7.0.0",
+    "expo-asset": "^4.0.0",
+    "expo-camera": "^10.0.0",
+    "expo-gl": "^8.4.0",
     "react": "^16.12.0",
     "react-native": ">= 0.58.0",
     "react-native-fs": "^2.14.1"
